@@ -35,11 +35,11 @@ export class AzureBlobService {
       );
     });
   }
-  async test(file: CreateBlobDto): Promise<any> {
+  async test(file: CreateBlobDto): Promise<BlobService.BlobResult> {
     return new Promise((resolve, reject) => {
       this.blobService.createBlockBlobFromStream(
         "develop",
-        file.originalname,
+        `${String(file.fieldname)}.${file.mimetype.split("/")[1]}`,
         Readable.from(file.buffer),
         file.buffer.length,
         (error, result) => {

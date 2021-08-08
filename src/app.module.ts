@@ -4,6 +4,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { BlobModule } from "./components/blob/blob.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AudioModule } from './components/audio/audio.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         rejectUnauthorized: false
       }
     }),
-    BlobModule
+    BlobModule,
+    AudioModule
   ],
   controllers: [AppController],
   providers: [AppService]

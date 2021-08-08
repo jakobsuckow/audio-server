@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-const { Readable } = require("stream");
-import azure, { BlobService } from "azure-storage";
+import { BlobService } from "azure-storage";
+import { CreateBlobDto } from "./blob.dto";
 
 @Injectable()
 export class AzureBlobService {
@@ -18,20 +18,19 @@ export class AzureBlobService {
     });
   }
 
-  async createFromBrowserFile(file: Blob) {
-    //@ts-ignore
-    console.log(Readable.from(file.buffer.toString()));
-    return this.blobService.createBlockBlobFromStream(
-      "develop",
-      "test",
-      //@ts-ignore
-      Readable.from(file.buffer.toString()),
-      //@ts-ignore
-      file.buffer.length,
-      callback => {
-        console.log("callback", callback);
-      }
-    );
+  async createFromBrowserFile(file: CreateBlobDto): Promise<BlobService.BlobResult> {
+    return new Promise((resolve, reject) => {
+      console.log(file);
+      this.blobService.createBlockBlobFromBrowserFile(
+        "develop",
+        file.originalname,
+        file,
+        (error, result) => {
+          if (error) reject(error);
+          resolve(result);
+        }
+      );
+    });
   }
   async createOther(file: Blob) {}
 }

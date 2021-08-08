@@ -8,13 +8,18 @@ export class BlobController {
   constructor(private blobService: AzureBlobService) {}
   @Post("")
   @UseInterceptors(FileInterceptor("file"))
-  createBlob(@UploadedFile() file: CreateBlobDto) {
-    return this.blobService.createFromBrowserFile(file);
+  async createBlob(@UploadedFile() file: CreateBlobDto) {
+    return await this.blobService.createFromBrowserFile(file);
   }
 
   @Post("stream")
   @UseInterceptors(FileInterceptor("file"))
-  createBlobFromStream(@UploadedFile() file: CreateBlobDto) {
-    return this.blobService.createFromStream(file);
+  async createBlobFromStream(@UploadedFile() file: CreateBlobDto) {
+    return await this.blobService.createFromStream(file);
+  }
+  @Post("test")
+  @UseInterceptors(FileInterceptor("file"))
+  async test(@UploadedFile() file: CreateBlobDto) {
+    return await this.blobService.test(file);
   }
 }

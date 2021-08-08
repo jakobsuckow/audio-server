@@ -30,6 +30,7 @@
     "azure-storage": "^2.10.4",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "into-stream": "^7.0.0",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

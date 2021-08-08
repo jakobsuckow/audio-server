@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import * as AWS from "aws-sdk";
-import { CreateFile, File } from "./s3.interface";
+import { CreateBlobDto } from "../blob/blob.dto";
+import { CreateFile } from "./s3.interface";
 
 @Injectable()
 export class S3Service {
@@ -16,10 +17,10 @@ export class S3Service {
     this.bucket = this.configService.get("AWS_BUCKET_NAME");
   }
 
-  async uploadFile(file: CreateFile): Promise<AWS.S3.PutObjectOutput> {
+  async uploadFile(file: CreateBlobDto): Promise<AWS.S3.PutObjectOutput> {
     const params = {
       Bucket: this.bucket,
-      Key: `${String(file.id)}.${file.mimetype.split("/")[1]}`,
+      Key: `${String(file.fieldname)}.${file.mimetype.split("/")[1]}`,
       Body: file.buffer
     };
     return new Promise((resolve, reject) => {
@@ -32,10 +33,10 @@ export class S3Service {
     });
   }
 
-  async downloadFile(file: File): Promise<Buffer> {
+  async downloadFile(file: CreateBlobDto): Promise<Buffer> {
     const params = {
       Bucket: this.bucket,
-      Key: `${String(file.id)}.${file.mimetype.split("/")[1]}`
+      Key: `${String(file.fieldname)}.${file.mimetype.split("/")[1]}`
     };
     return new Promise((resolve, reject) => {
       this.s3.getObject(params, (err, data) => {
@@ -50,7 +51,7 @@ export class S3Service {
     });
   }
 
-  async deleteFile(file: File): Promise<AWS.S3.GetObjectOutput> {
+  async deleteFile(file: CreateFile): Promise<AWS.S3.GetObjectOutput> {
     const params = {
       Bucket: this.bucket,
       Key: `${String(file.id)}.${file.mimetype.split("/")[1]}`

@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { BlobService } from "azure-storage";
-import { CreateBlobDto } from "./blob.dto";
+import { Blob, CreateBlobDto } from "./blob.dto";
 import { Readable } from "stream";
-import intoStream from "into-stream";
 import * as fs from "fs";
+import { BlobEntity } from "./blob.entity";
 
 @Injectable()
 export class AzureBlobService {
@@ -66,7 +66,21 @@ export class AzureBlobService {
     });
   }
 
-  async getOne() {
-    return new Promise((resolve, reject) => {});
+  async getOne(file: Blob) {
+    return new Promise((resolve, reject) => {
+      this.blobService.getBlobToStream(
+        "develop",
+        `${String(file.fieldname)}.${file.mimetype.split("/")[1]}`,
+        fs.createWriteStream("/tmp"),
+        (error, serverBlob) => {
+          if (error) reject(error);
+          resolve(serverBlob);
+        }
+      );
+    });
+  }
+
+  async createURL(file: BlobEntity): Promise<string> {
+    return `http://localhost:5000/api/v1/blob/${file.id}`;
   }
 }

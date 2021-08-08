@@ -1,4 +1,4 @@
-export class CreateBlobDto {
+export class Blob {
   fieldname: string;
   originalname: string;
   encoding: string;
@@ -7,3 +7,6 @@ export class CreateBlobDto {
   buffer: Buffer;
 }
 
+export class CreateBlobDto extends Blob {
+  buffer: Buffer;
+}

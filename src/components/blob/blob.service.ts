@@ -7,9 +7,7 @@ import { CreateBlobDto } from "./blob.dto";
 export class AzureBlobService {
   blobService: BlobService;
   constructor(private configService: ConfigService) {
-    this.blobService = new BlobService(
-      "DefaultEndpointsProtocol=https;AccountName=5minutesdevelop;AccountKey=IfcT1ls6ipDe+E+mSLrB/+jN3GZ9DZju47DXF/hoxlFua2SJG7e8IqVMBIIxE4VgO+7wDaRmZlW3H5DVh04YsQ==;EndpointSuffix=core.windows.net"
-    );
+    this.blobService = new BlobService(this.configService.get<string>("AZURE_URI"));
   }
   async createContainer(containerName: string) {
     return this.blobService.createContainerIfNotExists("staging", (error, result) => {

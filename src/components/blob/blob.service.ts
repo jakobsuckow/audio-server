@@ -35,7 +35,7 @@ export class AzureBlobService {
       );
     });
   }
-  async test(file: CreateBlobDto): Promise<BlobService.BlobResult> {
+  async createFromStream(file: CreateBlobDto): Promise<BlobService.BlobResult> {
     return new Promise((resolve, reject) => {
       this.blobService.createBlockBlobFromStream(
         "develop",
@@ -66,17 +66,6 @@ export class AzureBlobService {
     });
   }
 
-  async createFromStream(file: CreateBlobDto): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const a = fs.createReadStream(file.buffer).pipe(
-        this.blobService.createWriteStreamToBlockBlob("develop", file.fieldname, {
-          blockIdPrefix: "block"
-        })
-      );
-      console.log(a);
-      resolve(a);
-    });
-  }
   async getOne() {
     return new Promise((resolve, reject) => {});
   }

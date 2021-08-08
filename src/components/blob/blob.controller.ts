@@ -9,17 +9,6 @@ export class BlobController {
   @Post("")
   @UseInterceptors(FileInterceptor("file"))
   async createBlob(@UploadedFile() file: CreateBlobDto) {
-    return await this.blobService.createFromBrowserFile(file);
-  }
-
-  @Post("stream")
-  @UseInterceptors(FileInterceptor("file"))
-  async createBlobFromStream(@UploadedFile() file: CreateBlobDto) {
     return await this.blobService.createFromStream(file);
-  }
-  @Post("test")
-  @UseInterceptors(FileInterceptor("file"))
-  async test(@UploadedFile() file: CreateBlobDto) {
-    return await this.blobService.test(file);
   }
 }

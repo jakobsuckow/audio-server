@@ -66,17 +66,16 @@ export class AzureBlobService {
     });
   }
 
-  async getOne(fileName: string) {
+  async downloadFile(fileName: string): Promise<Buffer> {
     return new Promise((resolve, reject) => {
-      this.blobService.getBlobToStream(
-        "develop",
-        fileName,
-        fs.createWriteStream("/tmp"),
-        (error, serverBlob) => {
+      this.blobService.getBlobToLocalFile("develop", fileName, fileName, (error, serverBlob) => {
+        if (error) reject(error);
+        fs.readFile(fileName, (err, data) => {
+          console.log(data);
           if (error) reject(error);
-          resolve(serverBlob);
-        }
-      );
+          resolve(data);
+        });
+      });
     });
   }
 

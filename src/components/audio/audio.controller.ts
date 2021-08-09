@@ -1,5 +1,6 @@
-import { Controller, Get, Param, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { Response } from "express";
 import { CreateBlobDto } from "../blob/blob.dto";
 
 import { AudioService } from "./audio.service";
@@ -14,7 +15,7 @@ export class AudioController {
   }
 
   @Get(":id")
-  async getById(@Param("id") id: string) {
-    return this.audioService.downloadAudio(id);
+  async getById(@Param("id") id: string, @Res() res: Response) {
+    return res.end(this.audioService.downloadAudio(id));
   }
 }

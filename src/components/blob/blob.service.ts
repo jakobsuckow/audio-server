@@ -73,6 +73,11 @@ export class AzureBlobService {
         fs.readFile(fileName, (err, data) => {
           if (err) reject(err);
           resolve(data);
+          fs.unlink(fileName, err => {
+            if (err) {
+              console.log(err);
+            }
+          });
         });
       });
     });

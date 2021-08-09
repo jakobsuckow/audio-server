@@ -34,4 +34,8 @@ export class AudioService {
       url: `http://localhost:5000/api/v1/audio/${entity.id}`
     };
   }
+
+  async listEntities(): Promise<AudioEntity[]> {
+    return await this.audioRepository.find();
+  }
 }

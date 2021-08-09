@@ -3,6 +3,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { Response } from "express";
 import { CreateBlobDto } from "../blob/blob.dto";
 import { WatsonService } from "../watson/watson.service";
+import { AudioEntity } from "./audio.entity";
 
 import { AudioService } from "./audio.service";
 
@@ -13,6 +14,11 @@ export class AudioController {
   @UseInterceptors(FileInterceptor("file"))
   async createBlob(@UploadedFile() blob: CreateBlobDto) {
     return await this.audioService.create(blob);
+  }
+
+  @Get("all")
+  async getAll(): Promise<AudioEntity[]> {
+    return await this.audioService.listEntities();
   }
 
   @Get(":id")

@@ -66,11 +66,11 @@ export class AzureBlobService {
     });
   }
 
-  async getOne(file: Blob) {
+  async getOne(fileName: string) {
     return new Promise((resolve, reject) => {
       this.blobService.getBlobToStream(
         "develop",
-        `${String(file.fieldname)}.${file.mimetype.split("/")[1]}`,
+        fileName,
         fs.createWriteStream("/tmp"),
         (error, serverBlob) => {
           if (error) reject(error);

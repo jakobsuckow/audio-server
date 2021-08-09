@@ -4,20 +4,15 @@ import { Repository } from "typeorm";
 import { Blob, CreateBlobDto } from "../blob/blob.dto";
 import { AzureBlobService } from "../blob/blob.service";
 import { AudioEntity } from "./audio.entity";
-import { FfmpegCommand } from "fluent-ffmpeg";
-import Ffmpeg = require("fluent-ffmpeg");
 import { Readable } from "stream";
-
+const Ffmpeg = require("fluent-ffmpeg");
 @Injectable()
 export class AudioService {
-  ffmpeg: FfmpegCommand;
   constructor(
     @InjectRepository(AudioEntity)
     private audioRepository: Repository<AudioEntity>,
     readonly azureBlobService: AzureBlobService
-  ) {
-    this.ffmpeg = new FfmpegCommand();
-  }
+  ) {}
 
   async create(blob: CreateBlobDto) {
     const res = await this.azureBlobService.createFromStream(blob);
@@ -34,19 +29,14 @@ export class AudioService {
     );
   }
 
-  async analyze(id: string): Promise<Ffmpeg.FfprobeData> {
+  async analyze(id: string): Promise<any> {
     const entity = await this.audioRepository.findOne(id);
     const blob = await this.azureBlobService.downloadFile(
       `${String(entity.fieldname)}.${entity.mimetype.split("/")[1]}`
     );
 
     return new Promise((resolve, reject) => {
-      this.ffmpeg.input(Readable.from(blob)).ffprobe((err, data) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(data);
-      });
+      resolve(Readable.from(blob));
     });
   }
 

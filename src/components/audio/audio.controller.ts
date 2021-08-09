@@ -18,4 +18,8 @@ export class AudioController {
   async getById(@Param("id") id: string, @Res() res: Response) {
     return res.end(await this.audioService.downloadAudio(id));
   }
+  @Get(":id/analyze")
+  async analyzeAudio(@Param("id") id: string) {
+    return await this.audioService.analyze(id);
+  }
 }

@@ -71,7 +71,6 @@ export class AzureBlobService {
       this.blobService.getBlobToLocalFile("develop", fileName, fileName, (error, serverBlob) => {
         if (error) reject(error);
         fs.readFile(fileName, (err, data) => {
-          console.log(data);
           if (error) reject(error);
           resolve(data);
         });

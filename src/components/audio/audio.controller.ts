@@ -16,6 +16,6 @@ export class AudioController {
 
   @Get(":id")
   async getById(@Param("id") id: string, @Res() res: Response) {
-    return res.end(this.audioService.downloadAudio(id));
+    return res.end(await this.audioService.downloadAudio(id));
   }
 }

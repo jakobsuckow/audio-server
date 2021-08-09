@@ -5,6 +5,7 @@ import { AppService } from "./app.service";
 import { BlobModule } from "./components/blob/blob.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AudioModule } from './components/audio/audio.module';
+import { WatsonModule } from './components/watson/watson.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { AudioModule } from './components/audio/audio.module';
       }
     }),
     BlobModule,
-    AudioModule
+    AudioModule,
+    WatsonModule
   ],
   controllers: [AppController],
   providers: [AppService]

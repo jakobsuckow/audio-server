@@ -15,10 +15,10 @@ export class AudioService {
 
   async create(blob: CreateBlobDto) {
     const res = await this.azureBlobService.createFromStream(blob);
-    console.log(res);
-    const savedEntity = await this.audioRepository.save(blob);
-
-    return this.createURL(savedEntity);
+    if (res) {
+      const savedEntity = await this.audioRepository.save(blob);
+      return this.createURL(savedEntity);
+    }
   }
 
   async downloadAudio(id: string) {

@@ -23,7 +23,6 @@ export class AzureBlobService {
 
   async createFromBrowserFile(file: CreateBlobDto): Promise<BlobService.BlobResult> {
     return new Promise((resolve, reject) => {
-      console.log(file);
       this.blobService.createBlockBlobFromBrowserFile(
         "develop",
         file.originalname,

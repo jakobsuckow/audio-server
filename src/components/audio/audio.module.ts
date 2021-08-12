@@ -7,9 +7,15 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AudioEntity } from "./audio.entity";
 import { WatsonModule } from "../watson/watson.module";
 import { WatsonService } from "../watson/watson.service";
+import { WinstonModule } from "../winston/winston.module";
 
 @Module({
-  imports: [BlobModule, WatsonModule, TypeOrmModule.forFeature([AudioEntity])],
+  imports: [
+    BlobModule,
+    WatsonModule,
+    TypeOrmModule.forFeature([AudioEntity]),
+    WinstonModule.forRoot()
+  ],
   providers: [AudioService, AzureBlobService, WatsonService],
   controllers: [AudioController]
 })

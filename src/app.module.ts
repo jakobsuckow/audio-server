@@ -4,8 +4,9 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { BlobModule } from "./components/blob/blob.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AudioModule } from './components/audio/audio.module';
-import { WatsonModule } from './components/watson/watson.module';
+import { AudioModule } from "./components/audio/audio.module";
+import { WatsonModule } from "./components/watson/watson.module";
+import { WinstonModule } from "./components/winston/winston.module";
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { WatsonModule } from './components/watson/watson.module';
         rejectUnauthorized: false
       }
     }),
+    WinstonModule.forRoot(),
     BlobModule,
     AudioModule,
     WatsonModule

@@ -23,7 +23,7 @@ export class AudioService {
 
   async downloadAudio(id: string) {
     const entity = await this.audioRepository.findOne(id);
-    return this.azureBlobService.downloadFile(
+    return this.azureBlobService.downloadFileBuffer(
       `${String(entity.fieldname)}.${entity.mimetype.split("/")[1]}`
     );
   }

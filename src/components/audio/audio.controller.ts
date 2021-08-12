@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Header,
+  Param,
+  Post,
+  Res,
+  UploadedFile,
+  UseInterceptors
+} from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Response } from "express";
 import { CreateBlobDto } from "../blob/blob.dto";
@@ -22,8 +31,9 @@ export class AudioController {
   }
 
   @Get(":id")
+  @Header("content-type", "audio/*")
   async getById(@Param("id") id: string, @Res() res: Response) {
-    return res.end(await this.audioService.downloadAudio(id));
+    return res.send(await this.audioService.downloadAudio(id));
   }
 
   @Get(":id/transcribe")

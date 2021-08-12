@@ -73,13 +73,28 @@ export class AzureBlobService {
         fs.readFile(fileName, (err, data) => {
           if (err) reject(err);
           resolve(data);
-          fs.unlink(fileName, err => {
-            if (err) {
-              console.log(err);
-            }
-          });
+          // fs.unlink(fileName, err => {
+          //   if (err) {
+          //     console.log(err);
+          //   }
+          // });
         });
       });
+    });
+  }
+
+  async downloadFileBuffer(fileName: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.blobService.getBlobToStream(
+        "develop",
+        fileName,
+        fs.createWriteStream(fileName),
+        (error, serverBlob) => {
+          if (error) reject(error);
+          resolve(serverBlob);
+        }
+      );
+      fs.unlink(fileName, err => {});
     });
   }
 

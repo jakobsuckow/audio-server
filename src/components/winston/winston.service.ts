@@ -11,7 +11,7 @@ export class WinstonService {
     this.logger = winston.createLogger({
       level: "info",
       format: winston.format.json(),
-      defaultMeta: { service: "pallyway" },
+      defaultMeta: { service: "5-minutes" },
       transports: [
         new winston.transports.File({ filename: "error.log", level: "error" }),
         new winston.transports.File({ filename: "combined.log" }),

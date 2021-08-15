@@ -25,7 +25,7 @@ export class AzureBlobService {
     const fileName: string = `${file.originalname}.${file.mimetype.split("/")[1]}`;
     this.logger.log(fileName);
     const containerClient = this.blobService.getContainerClient("develop");
-    const blobClient: BlobClient = containerClient.getBlobClient("screenshot.png.png");
+    const blobClient: BlobClient = containerClient.getBlobClient(fileName);
     const downloadBlockBlobResponse = await blobClient.download();
     return this.streamToBuffer(downloadBlockBlobResponse.readableStreamBody);
   }
@@ -44,4 +44,5 @@ export class AzureBlobService {
       readableStream.on("error", reject);
     });
   }
+  // Todo: fileName string transformer.
 }

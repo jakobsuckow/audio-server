@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Blob, CreateBlobDto } from "../blob/blob.dto";
+import { CreateBlobDto } from "../blob/blob.dto";
 import { AzureBlobService } from "../blob/blob.service";
 import { AudioEntity } from "./audio.entity";
 
@@ -13,26 +13,19 @@ export class AudioService {
     readonly azureBlobService: AzureBlobService
   ) {}
 
+  // TODO: Should be createAudioDTO
+
   async create(blob: CreateBlobDto) {
     const res = await this.azureBlobService.upload(blob);
     if (res) {
       const savedEntity = await this.audioRepository.save(blob);
-      return this.createURL(savedEntity);
+      return savedEntity;
     }
   }
 
   async downloadAudio(id: string) {
-    // const entity = await this.audioRepository.findOne(id);
-    // return this.azureBlobService.downloadFileBuffer(
-    //   `${String(entity.fieldname)}.${entity.mimetype.split("/")[1]}`
-    // );
-  }
-
-  async createURL(entity: AudioEntity) {
-    return {
-      ...entity,
-      url: `http://localhost:5000/api/v1/audio/${entity.id}`
-    };
+    const entity = await this.audioRepository.findOne(id);
+    return this.azureBlobService.download(entity);
   }
 
   async listEntities(): Promise<AudioEntity[]> {

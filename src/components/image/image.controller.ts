@@ -25,8 +25,8 @@ export class ImageController {
   create(@UploadedFile() createImageDto: CreateImageDto) {
     return this.imageService.create(createImageDto);
   }
-
-  @Get()
+  
+  @Get("all")
   findAll() {
     return this.imageService.findAll();
   }

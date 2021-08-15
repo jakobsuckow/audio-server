@@ -1,8 +1,7 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { AzureBlobService } from "../blob/blob.service";
-import { WatsonService } from "../watson/watson.service";
 import { WinstonService } from "../winston/winston.service";
 import { CreateImageDto, UpdateImageDto } from "./image.dto";
 import { Image } from "./image.entity";
@@ -16,22 +15,25 @@ export class ImageService {
   ) {}
   async create(createImageDto: CreateImageDto) {
     this.winstonService.log(createImageDto.fieldname);
-    const res = await this.azureBlobService.createFromStream(createImageDto);
-    if (res) {
-      const savedEntity = await this.imageRepository.save(createImageDto);
-      return savedEntity;
+    try {
+      const res = await this.azureBlobService.upload(createImageDto);
+      if (res) {
+        const savedEntity = await this.imageRepository.save(createImageDto);
+        return savedEntity;
+      }
+    } catch (error) {
+      this.winstonService.log("error asd");
+      this.winstonService.error(error, "");
     }
   }
 
   async downloadAudio(id: string) {
     const entity = await this.imageRepository.findOne(id);
-    return this.azureBlobService.downloadFileBuffer(
-      `${String(entity.fieldname)}.${entity.mimetype.split("/")[1]}`
-    );
+    return this.azureBlobService.download(entity);
   }
 
-  findAll() {
-    return `This action returns all image`;
+  async findAll(): Promise<any> {
+    return await this.imageRepository.find();
   }
 
   findOne(id: number) {

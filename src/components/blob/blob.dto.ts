@@ -12,3 +12,14 @@ export class CreateBlobDto {
   originalname: string;
   buffer: Buffer;
 }
+
+export class UploadFileDTO {
+  mimetype: string;
+  originalname: string;
+  buffer: Buffer;
+}
+
+export class DownloadFileDTO {
+  mimetype: string;
+  originalname: string;
+}

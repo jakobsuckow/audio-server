@@ -14,7 +14,7 @@ export class AudioService {
   ) {}
 
   async create(blob: CreateBlobDto) {
-    const res = await this.azureBlobService.createFromStream(blob);
+    const res = await this.azureBlobService.upload(blob);
     if (res) {
       const savedEntity = await this.audioRepository.save(blob);
       return this.createURL(savedEntity);
@@ -22,10 +22,10 @@ export class AudioService {
   }
 
   async downloadAudio(id: string) {
-    const entity = await this.audioRepository.findOne(id);
-    return this.azureBlobService.downloadFileBuffer(
-      `${String(entity.fieldname)}.${entity.mimetype.split("/")[1]}`
-    );
+    // const entity = await this.audioRepository.findOne(id);
+    // return this.azureBlobService.downloadFileBuffer(
+    //   `${String(entity.fieldname)}.${entity.mimetype.split("/")[1]}`
+    // );
   }
 
   async createURL(entity: AudioEntity) {

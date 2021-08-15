@@ -1,4 +1,7 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src/components"
+  "sourceRoot": "src/components",
+  "generateOptions": {
+    "spec": false
+  }
 }

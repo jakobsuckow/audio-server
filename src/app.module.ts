@@ -7,6 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AudioModule } from "./components/audio/audio.module";
 import { WatsonModule } from "./components/watson/watson.module";
 import { WinstonModule } from "./components/winston/winston.module";
+import { ImageModule } from "./components/image/image.module";
 
 @Module({
   imports: [
@@ -18,10 +19,7 @@ import { WinstonModule } from "./components/winston/winston.module";
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [
-        "../dist/components/**/**.entity{.ts,.js}",
-        "../node_modules/nestjs-admin/**/*.entity.js"
-      ],
+      entities: ["../dist/components/**/**.entity{.ts,.js}"],
       migrations: ["dist/migrations/**.js"],
       synchronize: process.env.NODE_ENV === "production" ? false : true,
       autoLoadEntities: true,
@@ -32,7 +30,8 @@ import { WinstonModule } from "./components/winston/winston.module";
     WinstonModule.forRoot(),
     BlobModule,
     AudioModule,
-    WatsonModule
+    WatsonModule,
+    ImageModule
   ],
   controllers: [AppController],
   providers: [AppService]

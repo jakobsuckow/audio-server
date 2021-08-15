@@ -36,7 +36,7 @@ export class AzureBlobService {
   //   });
   // }
   async createFromStream(file: CreateBlobDto): Promise<BlobService.BlobResult> {
-    this.logger.log(file.size.toString());
+    // this.logger.log(file.size.toString());
     return new Promise((resolve, reject) => {
       this.blobService.createBlockBlobFromStream(
         "develop",

@@ -4,13 +4,17 @@ import { Repository } from "typeorm";
 import { CreateBlobDto } from "../blob/blob.dto";
 import { AzureBlobService } from "../blob/blob.service";
 import { AudioEntity } from "./audio.entity";
+import { getAudioDurationInSeconds } from "get-audio-duration";
+import { Readable } from "stream";
+import { WatsonService } from "../watson/watson.service";
 
 @Injectable()
 export class AudioService {
   constructor(
     @InjectRepository(AudioEntity)
     private audioRepository: Repository<AudioEntity>,
-    readonly azureBlobService: AzureBlobService
+    readonly azureBlobService: AzureBlobService,
+    private watsonService: WatsonService
   ) {}
 
   // TODO: Should be createAudioDTO
@@ -30,5 +34,16 @@ export class AudioService {
 
   async listEntities(): Promise<AudioEntity[]> {
     return await this.audioRepository.find();
+  }
+
+  async transcribe(id: string) {
+    const buffer = await this.downloadAudio(id);
+    return this.watsonService.transcribe(buffer);
+  }
+
+  // Utlities
+
+  async getDuration(stream: Readable): Promise<number> {
+    return await getAudioDurationInSeconds(stream);
   }
 }

@@ -17,6 +17,8 @@ export class WatsonService {
     });
   }
 
+  // General
+
   async transcribe(
     buffer: Buffer
   ): Promise<SpeechToTextV1.Response<SpeechToTextV1.SpeechRecognitionResults>> {

@@ -7,6 +7,19 @@ export class Blob {
   buffer: Buffer;
 }
 
-export class CreateBlobDto extends Blob {
+export class CreateBlobDto {
+  mimetype: string;
+  originalname: string;
   buffer: Buffer;
+}
+
+export class UploadFileDTO {
+  mimetype: string;
+  originalname: string;
+  buffer: Buffer;
+}
+
+export class DownloadFileDTO {
+  mimetype: string;
+  originalname: string;
 }

@@ -18,7 +18,7 @@ import { AudioService } from "./audio.service";
 
 @Controller("audio")
 export class AudioController {
-  constructor(private audioService: AudioService, private watsonService: WatsonService) {}
+  constructor(private audioService: AudioService) {}
   @Post("")
   @UseInterceptors(FileInterceptor("file"))
   async createBlob(@UploadedFile() blob: CreateBlobDto) {
@@ -38,7 +38,6 @@ export class AudioController {
 
   @Get(":id/transcribe")
   async transcribeAudio(@Param("id") id: string) {
-    const buffer = await this.audioService.downloadAudio(id);
-    return this.watsonService.transcribe(buffer);
+    return this.audioService.transcribe(id);
   }
 }

@@ -1,7 +1,6 @@
 FROM node:14.17-alpine
 
 RUN apk update && apk add --upgrade lame
-RUN lame -v
 
 WORKDIR /usr/src/app
 
